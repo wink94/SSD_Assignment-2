@@ -1,4 +1,12 @@
 .imagebox{
-
-    padding-top: 25%
+    padding-top: 2%;
+    height: 30px;
+    width: 30px;
+}
+.home-head{
+    background-color: rgb(135, 172, 252);
+    
+}
+.container{
+    /* background-color: aliceblue; */
 }

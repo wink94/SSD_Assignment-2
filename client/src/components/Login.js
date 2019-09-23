@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import FacebookLogin from 'react-facebook-login';
+import { FacebookProvider, LoginButton } from 'react-facebook';
 import './style/Login.css'
 
 class Login extends Component {
@@ -37,43 +37,22 @@ class Login extends Component {
             });
     }
 
-    // fbLogin(){
+
+
+    handleResponse = (response) => {
         
-    //     window.fbAsyncInit = function() {
-    //         FB.init({
-    //         appId      : '707046989723406',
-    //         cookie     : true,
-    //         xfbml      : true,
-    //         version    : '{api-version}'
-    //         });
-            
-    //         FB.AppEvents.logPageView();   
-            
-    //     };
-
-    //     (function(d, s, id){
-    //         var js, fjs = d.getElementsByTagName(s)[0];
-    //         if (d.getElementById(id)) {return;}
-    //         js = d.createElement(s); js.id = id;
-    //         js.src = "https://connect.facebook.net/en_US/sdk.js";
-    //         fjs.parentNode.insertBefore(js, fjs);
-    //     }(document, 'script', 'facebook-jssdk'));
-
-    // }
-
-    responseFacebook = (response) => {
-        // response.preventDefault();
-        if(response){
-            localStorage.setItem('FB_access_token', response.accessToken);
-            localStorage.setItem('FB_user_mail',response.email);
-            localStorage.setItem('FB_user_picture',response.picture.data.url);
-            localStorage.setItem('FB_user_name',response.name);
+            localStorage.setItem('FB_access_token', response.tokenDetail.accessToken);
+            localStorage.setItem('FB_user_mail',response.profile.email);
+            localStorage.setItem('FB_user_picture',response.profile.picture.data.url);
+            localStorage.setItem('FB_user_name',response.profile.name);
+            localStorage.setItem('FB_user_id',response.profile.id);
             this.setState({ message: response.name+' authenticated' });
             this.props.history.push('/home')
-        }
-        else{
+       
+        
+    }
 
-        }
+    handleError=(response)=>{
         console.log(response);
     }
   
@@ -93,32 +72,40 @@ class Login extends Component {
                     <div className="col s4">
                         <div className="row">
                             <div className="input-field">
-                                <input id="username" type="text" className="validate" name="uname" value={uname} onChange={this.onChange} required />
+                                <input id="username" type="text" className="validate" name="uname" value={uname} onChange={this.onChange}  />
                                 <label for="username">Username</label>
                             </div>
                         </div>
                         <div className="row">
                             <div className="input-field">
-                                <input id="password" type="password" className="validate" name="pword" value={pword} onChange={this.onChange} required/>
+                                <input id="password" type="password" className="validate" name="pword" value={pword} onChange={this.onChange} />
                                 <label for="password">Password</label>
                             </div>
                         </div>
 
                         <div className="row">
-                                <button className="btn col s12" type="submit">Login</button>
+                                <button className="btn col s12" type="submit">Login with jwtToken</button>
                         </div>
                         <div className="row">
-                        <FacebookLogin
-                            appId="707046989723406" 
-                            fields="name,email,picture"
-                            callback={this.responseFacebook}
-                            scope="public_profile,email,user_photos"
-                            icon="fa-facebook"
-                            />
+                            <FacebookProvider appId="707046989723406">
+                                <LoginButton
+                                scope="email,user_photos"
+                                onCompleted={this.handleResponse}
+                                onError={this.handleError}
+                                className="btn col s12 facebook"
+                                >
+                                    <div className='row'>
+                                        {/* <img src="https://img.icons8.com/material/24/000000/facebook-f.png" id='f-icon'></img> */}
+                                        <span id='fb-text'>Login with Facebook</span>
+                                    </div>
+                                
+                                </LoginButton>
+                            </FacebookProvider>
+                            
                         </div>
                         <div className="row">
                                 <div className="input-field">
-                                    <Link to='/register' class="btn">Register</Link>
+                                    <Link to='/register' className="btn  col s6">Register</Link>
                                 </div>
                         </div>
                     </div>
