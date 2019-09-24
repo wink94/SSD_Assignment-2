@@ -20,9 +20,9 @@ class Home extends Component{
         }
     }
 
-    /* sending a request to graph api at the stage of compenent mounting to DOM */
+    /* sending a request to graph api at the stage of compenent mounting to DOM with a access token to get user photos*/
     componentDidMount(){
-        let url='https://graph.facebook.com/'+this.state.id+'?fields=albums{photos{images,id}}&access_token='+this.state.access_token; //resource URI
+        let url='https://graph.facebook.com/'+this.state.id+'?fields=albums{photos{images,id}}&access_token='+this.state.access_token; //resource URI with user ID and access token
         axios({
             method:'get',
             url:url
