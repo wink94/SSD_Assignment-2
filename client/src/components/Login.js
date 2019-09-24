@@ -93,7 +93,7 @@ class Login extends Component {
                             
                             <FacebookProvider appId="707046989723406"> {/* handling facebook authentication using react-facebook obtaaining access token*/}
                                 <LoginButton
-                                scope="email,user_photos,user_status,user_posts,public_profile" /* scope of permisions or prefered grat types */
+                                scope="email,user_status,user_posts,public_profile,user_photos" /* scope of permisions or prefered grat types */
                                 onCompleted={this.handleResponse} /* handling response */
                                 onError={this.handleError} /* handling error */
                                 className="btn col s12 facebook" 
