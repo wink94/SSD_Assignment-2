@@ -13,12 +13,14 @@ class Login extends Component {
             message: ''
         };
     }
+    /* set name */
     onChange = (e) => {
         const state = this.state
         state[e.target.name] = e.target.value;
         this.setState(state);
     }
 
+    /* obtaining jwt token  */
     onSubmit = (e) => {
         e.preventDefault();
 
@@ -38,7 +40,7 @@ class Login extends Component {
     }
 
 
-
+    /* handling the facebook authentication server response */
     handleResponse = (response) => {
         
             localStorage.setItem('FB_access_token', response.tokenDetail.accessToken);
@@ -51,7 +53,7 @@ class Login extends Component {
        
         
     }
-
+    /* handling error */
     handleError=(response)=>{
         console.log(response);
     }
@@ -87,12 +89,13 @@ class Login extends Component {
                                 <button className="btn col s12" type="submit">Login with jwtToken</button>
                         </div>
                         <div className="row">
-                            <FacebookProvider appId="707046989723406">
+                            
+                            <FacebookProvider appId="707046989723406"> {/* handling facebook authentication using react face */}
                                 <LoginButton
-                                scope="email,user_photos"
-                                onCompleted={this.handleResponse}
-                                onError={this.handleError}
-                                className="btn col s12 facebook"
+                                scope="name,email,user_photos" /* scope of permisions */
+                                onCompleted={this.handleResponse} /* handling response */
+                                onError={this.handleError} /* handling error */
+                                className="btn col s12 facebook" 
                                 >
                                     <div className='row'>
                                         {/* <img src="https://img.icons8.com/material/24/000000/facebook-f.png" id='f-icon'></img> */}
