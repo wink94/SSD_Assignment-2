@@ -43,6 +43,7 @@ class Login extends Component {
     /* handling the facebook authentication server response */
     handleResponse = (response) => {
         
+            console.log(response)
             localStorage.setItem('FB_access_token', response.tokenDetail.accessToken);
             localStorage.setItem('FB_user_mail',response.profile.email);
             localStorage.setItem('FB_user_picture',response.profile.picture.data.url);
@@ -92,16 +93,15 @@ class Login extends Component {
                             
                             <FacebookProvider appId="707046989723406"> {/* handling facebook authentication using react face */}
                                 <LoginButton
-                                scope="name,email,user_photos" /* scope of permisions */
+                                scope="email,user_photos" /* scope of permisions */
                                 onCompleted={this.handleResponse} /* handling response */
                                 onError={this.handleError} /* handling error */
                                 className="btn col s12 facebook" 
                                 >
                                     <div className='row'>
-                                        {/* <img src="https://img.icons8.com/material/24/000000/facebook-f.png" id='f-icon'></img> */}
+                                        
                                         <span id='fb-text'>Login with Facebook</span>
                                     </div>
-                                
                                 </LoginButton>
                             </FacebookProvider>
                             

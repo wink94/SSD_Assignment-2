@@ -8,6 +8,7 @@ class Home extends Component{
 
     constructor(){
         super();
+        /* set state of user parameters */
         this.state={
             uname:window.localStorage.getItem('FB_user_name'),
             email:window.localStorage.getItem('FB_user_mail'),
@@ -19,61 +20,55 @@ class Home extends Component{
         }
     }
 
+    /* sending a request to graph api at the stage of compenent mounting to DOM */
     componentDidMount(){
-
-        
-        let url='https://graph.facebook.com/'+this.state.id+'?fields=albums{photos{images,id}}&access_token='+this.state.access_token;
+        let url='https://graph.facebook.com/'+this.state.id+'?fields=albums{photos{images,id}}&access_token='+this.state.access_token; //resource URI
         axios({
             method:'get',
             url:url
         })
-        .then(response=>{
+        .then(response=>{   //received response is processed using a foreach array. to extract images
             console.log(response)
             let arr=response.data.albums.data
             let img=[];
+            /* reading inner arrays using foreach loop */
             arr.forEach(element => {
                 if(element.photos.data.length!==1){
-                    let innerArray=element.photos.data
+                    let innerArray=element.photos.data 
                     innerArray.forEach(inElement=>{
                         let temp={
                             id:inElement.id,
                             image:inElement.images[0].source
                         };
-                        console.log(inElement)
-                        img.push(temp);
-                        // console.log(img)
+                        img.push(temp); /* push images to album array */
                     });
                 }
                 this.setState({
-                    albums:img
+                    albums:img /* set album array current state*/
                 })
             });
-            
-            
         })
-        .catch(response=>{
+        .catch(response=>{ /* error handling */
             console.log(response);
-        })
-                 
-       
+        })      
     }
 
-    extractFBImages=(arr)=>{
-        let img={}
-        arr.forEach(element => {
-            if(element.photos.data){
-                let innerArray=element.photos.data
-                innerArray.forEach(inElement=>{
-                    let temp={
-                        id:inElement.id,
-                        image:inElement.images[7].source
-                    };
-                    img.push(temp);
-                });
-            }
-        });
-        return img;
-    }
+    // extractFBImages=(arr)=>{
+    //     let img={}
+    //     arr.forEach(element => {
+    //         if(element.photos.data){
+    //             let innerArray=element.photos.data
+    //             innerArray.forEach(inElement=>{
+    //                 let temp={
+    //                     id:inElement.id,
+    //                     image:inElement.images[7].source
+    //                 };
+    //                 img.push(temp);
+    //             });
+    //         }
+    //     });
+    //     return img;
+    // }
 
     render(){
         return(
@@ -89,7 +84,7 @@ class Home extends Component{
                 </div>
 
                 <div className="row">
-                    
+                    {/* images are displayed as cards */}
                     {this.state.albums.map(function(element){
                         return <div className="col s6"> <Image_Card image={element.image} /> </div>
                     })}

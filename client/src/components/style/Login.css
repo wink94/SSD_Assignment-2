@@ -2,7 +2,9 @@
     padding-top: 20%
 }
 .facebook{
-    background-color: #3b5998
+    background-color: #3b5998;
+    color: rgb(255, 255, 255);
+    border-radius: 5px;
 }
 #f-icon{
     margin-left: 10px;
